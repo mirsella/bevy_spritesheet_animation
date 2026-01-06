@@ -7,7 +7,11 @@ use bevy_spritesheet_animation::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins((MinimalPlugins, SpritesheetAnimationPlugin))
+        .add_plugins((
+            MinimalPlugins,
+            AssetPlugin::default(),
+            SpritesheetAnimationPlugin,
+        ))
         .add_systems(Startup, spawn_animation)
         .add_systems(Update, log_animations_events)
         .run();
