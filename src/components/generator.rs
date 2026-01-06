@@ -9,7 +9,9 @@ use bevy::{
     utils::default,
 };
 
-use crate::{components::sprite3d::Sprite3d, spritesheet::Spritesheet};
+#[cfg(feature = "3d")]
+use crate::components::sprite3d::Sprite3d;
+use crate::spritesheet::Spritesheet;
 
 /// A helper to generate animation-ready components such as sprites, texture atlases, UI images and cursors.
 ///
@@ -67,6 +69,7 @@ impl ComponentGenerator {
         Sprite::from_atlas_image(self.spritesheet.image().clone(), self.atlas(atlas_layouts))
     }
 
+    #[cfg(feature = "3d")]
     /// Creates an animation-ready [Sprite3d].
     ///
     /// # Arguments

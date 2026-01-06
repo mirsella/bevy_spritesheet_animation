@@ -37,7 +37,6 @@ pub mod prelude {
         clip::{Clip, ClipId},
         components::{
             generator::ComponentGenerator,
-            sprite3d::Sprite3d,
             spritesheet_animation::{AnimationProgress, SpritesheetAnimation},
         },
         easing::{Easing, EasingVariety},
@@ -46,6 +45,9 @@ pub mod prelude {
         plugin::SpritesheetAnimationPlugin,
         spritesheet::Spritesheet,
     };
+
+    #[cfg(feature = "3d")]
+    pub use crate::components::sprite3d::Sprite3d;
 }
 
 mod animator;

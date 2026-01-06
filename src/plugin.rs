@@ -1,18 +1,22 @@
 use bevy::prelude::*;
 
 use crate::{
-    animation::Animation,
-    animator::Animator,
-    components::{sprite3d::Sprite3d, spritesheet_animation::SpritesheetAnimation},
-    events::AnimationEvent,
-    systems::{sprite3d, spritesheet_animation},
+    animation::Animation, animator::Animator,
+    components::spritesheet_animation::SpritesheetAnimation, events::AnimationEvent,
+    systems::spritesheet_animation,
 };
+
+#[cfg(feature = "3d")]
+use crate::components::sprite3d::Sprite3d;
+#[cfg(feature = "3d")]
+use crate::systems::sprite3d;
 
 /// Set for systems that update animations
 #[derive(Debug, PartialEq, Eq, Clone, Hash, SystemSet)]
 pub struct AnimationSystemSet;
 
 /// Set for systems that manage 3D sprites
+#[cfg(feature = "3d")]
 #[derive(Debug, PartialEq, Eq, Clone, Hash, SystemSet)]
 pub struct Sprite3dSystemSet;
 
@@ -68,7 +72,10 @@ impl Plugin for SpritesheetAnimationPlugin {
                 spritesheet_animation::play_animations.in_set(AnimationSystemSet),
             )
             // Animations events
-            .add_message::<AnimationEvent>()
+            .add_message::<AnimationEvent>();
+
+        #[cfg(feature = "3d")]
+        app
             // 3D sprites
             .init_resource::<sprite3d::Cache>()
             .register_type::<sprite3d::Cache>()

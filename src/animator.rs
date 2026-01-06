@@ -23,16 +23,15 @@ use bevy::{
     ui::widget::ImageNode,
 };
 
+#[cfg(feature = "3d")]
+use crate::components::sprite3d::Sprite3d;
 use crate::{
     animation::Animation,
     animator::{
         cache::AnimationCache,
         iterator::{AnimationIterator, IteratorFrame},
     },
-    components::{
-        sprite3d::Sprite3d,
-        spritesheet_animation::{AnimationProgress, SpritesheetAnimation},
-    },
+    components::spritesheet_animation::{AnimationProgress, SpritesheetAnimation},
     events::AnimationEvent,
 };
 use iterator::AnimationIteratorEvent;
@@ -73,6 +72,7 @@ pub(crate) struct SpritesheetAnimationQuery {
     entity: Entity,
     spritesheet_animation: &'static mut SpritesheetAnimation,
     sprite: Option<&'static mut Sprite>,
+    #[cfg(feature = "3d")]
     sprite3d: Option<&'static mut Sprite3d>,
     image_node: Option<&'static mut ImageNode>,
     #[cfg(feature = "custom_cursor")]
@@ -262,6 +262,7 @@ impl Animator {
 
             // 3D sprites
 
+            #[cfg(feature = "3d")]
             if let Some(atlas) = item
                 .sprite3d
                 .as_deref_mut()
