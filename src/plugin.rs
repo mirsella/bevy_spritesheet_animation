@@ -67,9 +67,15 @@ impl Plugin for SpritesheetAnimationPlugin {
             // Main animation system
             .init_resource::<Animator>()
             .register_type::<Animator>()
+            // State update in PreUpdate to allow user systems in Update to react
+            .add_systems(
+                PreUpdate,
+                spritesheet_animation::animate.in_set(AnimationSystemSet),
+            )
+            // Visual sync in PostUpdate
             .add_systems(
                 PostUpdate,
-                spritesheet_animation::play_animations.in_set(AnimationSystemSet),
+                spritesheet_animation::sync_sprites.in_set(AnimationSystemSet),
             )
             // Animations events
             .add_message::<AnimationEvent>();
